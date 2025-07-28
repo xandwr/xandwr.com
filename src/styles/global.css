@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&display=swap');
+@import "tailwindcss";
+
+body {
+    font-family: "Handjet", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+        "ELGR" 2,
+        "ELSH" 6;
+}
+
+@keyframes bob {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-0.2rem);
+    }
+}
+
+.bob {
+    animation: bob 1.2s ease-in-out infinite;
+}
+
+.welcome {
+    font-family: "Sixtyfour", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "BLED" 0,
+        "SCAN" 0;
+}
+
+.subtitle {
+    font-family: "VT323", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+    --cube-size: 150px;
+    --cube-half: calc(var(--cube-size) / 2);
+}
+
+.cube-container {
+    perspective: calc(var(--cube-size) * 2);
+    width: var(--cube-size);
+    height: var(--cube-size);
+}
+
+.cube {
+    font-family: "Sixtyfour", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "BLED" 0,
+        "SCAN" 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: spinCube 8s infinite linear;
+}
+
+.cube-wrapper {
+    position: relative;
+    width: var(--cube-size);
+    height: var(--cube-size);
+}
+
+.cube-shadow {
+    position: absolute;
+    top: 100%;
+    /* below the cube */
+    left: 50%;
+    transform: translateX(-50%) translateY(20px) skewX(-15deg) skewY(5deg);
+    width: 120%;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    filter: blur(36px);
+    transform-origin: top center;
+    animation: spinShadow 8s infinite linear;
+    z-index: -1;
+}
+
+.face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #0f0f0f;
+    border: 4px solid #333;
+    color: white;
+    font-size: 5rem;
+    font-weight: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Dynamic face transforms */
+.front {
+    transform: rotateY(0deg) translateZ(var(--cube-half));
+}
+
+.back {
+    transform: rotateY(180deg) translateZ(var(--cube-half));
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(var(--cube-half));
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(var(--cube-half));
+}
+
+.top {
+    transform: rotateX(90deg) translateZ(var(--cube-half));
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(var(--cube-half));
+}
+
+@keyframes spinCube {
+    0% {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+@keyframes spinShadow {
+    0% {
+        transform: translateX(-50%) translateY(20px) skewX(-15deg) skewY(5deg);
+    }
+
+    25% {
+        transform: translateX(-50%) translateY(20px) skewX(-10deg) skewY(-5deg);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(20px) skewX(15deg) skewY(0deg);
+    }
+
+    75% {
+        transform: translateX(-50%) translateY(20px) skewX(10deg) skewY(10deg);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(20px) skewX(-15deg) skewY(5deg);
+    }
+}

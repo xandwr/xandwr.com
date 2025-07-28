@@ -1,0 +1,42 @@
+---
+const {
+    tagline = "the digital emissions of a workaholic",
+    paragraph = "i make games, i break engines, and i prototype too much",
+} = Astro.props;
+---
+
+<section class="text-center mt-16">
+    <h1 class="welcome text-6xl mb-2">
+        {
+            Array.from("WELCOME TO:").map((char, i) => (
+                <span
+                    class={`bob inline-block ${char === " " ? "w-3 inline-block" : ""}`}
+                    style={`animation-delay: ${i * 0.15}s`}
+                >
+                    {char === " " ? "\u00A0" : char}
+                </span>
+            ))
+        }
+    </h1>
+
+    <h2 class="subtitle text-5xl font-semibold mb-4">{tagline}</h2>
+    <i
+        ><p class="text-gray-600 text-3xl max-w-4xl mx-auto mb-6">
+            {paragraph}
+        </p></i
+    >
+
+    <div class="w-full flex justify-center mt-30">
+        <div class="cube-wrapper">
+            <div class="cube">
+                <div class="face front">X</div>
+                <div class="face back">A</div>
+                <div class="face right">N</div>
+                <div class="face left">D</div>
+                <div class="face top">E</div>
+                <div class="face bottom">R</div>
+            </div>
+            <div class="cube-shadow"></div>
+        </div>
+    </div>
+</section>

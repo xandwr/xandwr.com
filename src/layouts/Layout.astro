@@ -1,0 +1,41 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+
+const {
+	title = "xandwr",
+	description = "developer, designer, and chaos conduit",
+	bodyClass = "",
+	headExtra = null,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="text-base antialiased scroll-smooth text-zinc-100">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{title}</title>
+		<meta
+			name="description"
+			content="Portfolio site for xandwr, a game developer and systems tinkerer"
+		/>
+
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+
+	<body class={`bg-black text-white font-sans ${bodyClass}`}>
+		<main class="max-w-6xl mx-auto px-6 py-8">
+			<Header siteTitle="xandwr" />
+			<slot />
+		</main>
+	</body>
+</html>
