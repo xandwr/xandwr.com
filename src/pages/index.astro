@@ -1,8 +1,12 @@
 ---
-import Homepage from "../components/Homepage.astro";
-import Layout from "../layouts/Layout.astro";
+// src/pages/index.astro
 ---
 
-<Layout>
-	<Homepage />
-</Layout>
+<html>
+	<head>
+		<meta http-equiv="refresh" content="0; url=/home" />
+	</head>
+	<body>
+		<p>Redirecting to <a href="/home">/home</a>...</p>
+	</body>
+</html>
