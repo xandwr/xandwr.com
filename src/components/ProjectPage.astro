@@ -1,0 +1,84 @@
+---
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects } from "../data/projects";
+
+// Group by category
+const groupedProjects = projects.reduce((acc, project) => {
+    const group = project.status || "UNKNOWN";
+    acc[group] = acc[group] || [];
+    acc[group].push(project);
+    return acc;
+}, {});
+
+const statusOrder = ["ACTIVE", "PAUSED", "ARCHIVED"];
+---
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll("[data-toggle-section]").forEach((button) => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector(".arrow");
+
+            // Collapse all by default
+            content.style.maxHeight = "0px";
+            content.style.opacity = "0";
+
+            button.addEventListener("click", () => {
+                const isCollapsed = content.style.maxHeight === "0px";
+                if (isCollapsed) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    content.style.opacity = "1";
+                    icon.classList.add("rotate-90");
+                } else {
+                    content.style.maxHeight = "0px";
+                    content.style.opacity = "0";
+                    icon.classList.remove("rotate-90");
+                }
+            });
+        });
+    });
+</script>
+
+<section class="max-w-6xl mx-auto">
+    <h1 class="text-3xl md:text-5xl font-bold mb-8 tracking-tight">
+        Projects:
+    </h1>
+
+    {
+        Object.entries(groupedProjects)
+            .sort(([a], [b]) => statusOrder.indexOf(a) - statusOrder.indexOf(b))
+            .map(([status, projects]) => (
+                <div class="mb-8 border border-white/10 rounded-md overflow-hidden">
+                    <button
+                        data-toggle-section
+                        class="w-full text-left text-2xl font-bold cursor-pointer px-4 py-3 select-none flex justify-between items-center hover:bg-white/5 transition-colors"
+                    >
+                        <span>
+                            {{
+                                ACTIVE: "🟢 ACTIVE",
+                                PAUSED: "🟠 PAUSED",
+                                ARCHIVED: "🔴 ARCHIVE",
+                            }[status] || status}{" "}
+                            ({projects.length})
+                        </span>
+                        <span class="arrow text-white/50 transition-transform duration-300">
+                            ▶
+                        </span>
+                    </button>
+
+                    <div
+                        class="transition-all duration-500 ease-in-out overflow-hidden opacity-0"
+                        style="max-height: 0px;"
+                    >
+                        <div class="px-4 pb-4 pt-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {projects.map((project) => (
+                                    <ProjectCard {...project} />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))
+    }
+</section>
