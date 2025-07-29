@@ -1,0 +1,15 @@
+---
+import Prose from "../components/Prose.astro";
+import { getEntry, render } from "astro:content";
+
+const entry = await getEntry("info", "about");
+const { Content } = await render(entry);
+const { title } = entry.data;
+---
+
+<Prose>
+    <h1 class="text-5xl mb-6"><b>{title}</b></h1>
+    <div class="text-2xl">
+        <Content />
+    </div>
+</Prose>
