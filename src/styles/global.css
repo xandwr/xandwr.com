@@ -15,19 +15,43 @@ body {
 }
 
 .darken {
-    position: relative;
-    background-color: #00000080;
-    overflow: hidden;
-    border: 4px solid rgba(255, 255, 255, 0.5);
+	position: relative;
+	background-color: #00000080;
+	overflow: auto;
+	scroll-behavior: smooth;
+	border: 4px solid rgba(255, 255, 255, 0.5);
+
+	/* Hide scrollbar for WebKit browsers */
+	::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+	}
+
+	/* Optional: Firefox */
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+}
+
+.darken::-webkit-scrollbar {
+	display: none;
 }
 
 .darken::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at center, transparent 50%, #000000 100%);
-    pointer-events: none;
-    z-index: -1;
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: -1;
+
+	background: radial-gradient(
+		ellipse at center,
+		rgba(0, 0, 0, 0) 30%,
+		rgba(0, 0, 0, 0.5) 65%,
+		#000 100%
+	);
+
+	background-repeat: no-repeat;
+	background-size: 200% 200%; /* Ensure it fully fills, even when zoomed */
 }
 
 @keyframes bob {
