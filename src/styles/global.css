@@ -14,6 +14,22 @@ body {
         "ELSH" 6;
 }
 
+.darken {
+    position: relative;
+    background-color: #00000080;
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.5);
+}
+
+.darken::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, #000000 100%);
+    pointer-events: none;
+    z-index: -1;
+}
+
 @keyframes bob {
 
     0%,
@@ -60,16 +76,16 @@ body {
 .cube {
     font-family: "Sixtyfour", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 400;
+    font-weight: 500;
     font-style: normal;
     font-variation-settings:
-        "BLED" 0,
-        "SCAN" 0;
+        "BLED" 1,
+        "SCAN" 100;
     width: 100%;
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    animation: spinCube 8s infinite linear;
+    animation: spinCube 16s infinite linear;
 }
 
 .cube-wrapper {
@@ -80,31 +96,44 @@ body {
 
 .cube-shadow {
     position: absolute;
-    top: 100%;
-    /* below the cube */
-    left: 50%;
-    transform: translateX(-50%) translateY(20px) skewX(-15deg) skewY(5deg);
-    width: 120%;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.1);
-    filter: blur(36px);
-    transform-origin: top center;
-    animation: spinShadow 8s infinite linear;
+    top: -15%;
+    left: -15%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.235);
+    filter: blur(60px);
+    transform-origin: center center;
     z-index: -1;
 }
 
 .face {
+    background-image: url(https://indieground.net/wp-content/uploads/2020/02/Freebie-DarkGrungeTextures-Preview-06.jpg);
+    background-repeat: repeat;
+    background-blend-mode: overlay;
+    background-color: #061f1f63;
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #0f0f0f;
-    border: 4px solid #333;
+    border: 8px solid rgba(255, 255, 255, 0.318);
     color: white;
-    font-size: 5rem;
-    font-weight: inherit;
+    font-size: 4rem;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /* Text glow */
+    text-shadow:
+        0 0 4px rgba(255, 255, 255, 0.878),
+        0 0 8px rgba(255, 255, 255, 0.588),
+        0 0 16px rgba(255, 255, 255, 0.537),
+        0 0 32px rgba(255, 255, 255, 0.225);
+
+    /* Border glow via box-shadow */
+    box-shadow:
+        0 0 2px rgba(255, 255, 255, 0.5),
+        0 0 6px rgba(255, 255, 255, 0.5),
+        0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 /* Dynamic face transforms */
@@ -137,29 +166,110 @@ body {
         transform: rotateX(0deg) rotateY(0deg);
     }
 
+    50% {
+        transform: rotateX(180deg) rotateY(180deg);
+    }
+
     100% {
         transform: rotateX(360deg) rotateY(360deg);
     }
 }
 
-@keyframes spinShadow {
+body {
+    width: 100vw;
+    height: 100vh;
+    background: #141414;
+}
+
+a-hole {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+a-hole:before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    display: block;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(ellipse at 50% 55%, transparent 10%, black 50%);
+    transform: translate3d(-50%, -50%, 0);
+    content: "";
+}
+
+a-hole:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 5;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 50% 75%, #120954 10%, transparent 100%);
+    mix-blend-mode: overlay;
+    transform: translate3d(-50%, -50%, 0);
+    content: "";
+}
+
+@-webkit-keyframes aura-glow {
     0% {
-        transform: translateX(-50%) translateY(20px) skewX(-15deg) skewY(5deg);
-    }
-
-    25% {
-        transform: translateX(-50%) translateY(20px) skewX(-10deg) skewY(-5deg);
-    }
-
-    50% {
-        transform: translateX(-50%) translateY(20px) skewX(15deg) skewY(0deg);
-    }
-
-    75% {
-        transform: translateX(-50%) translateY(20px) skewX(10deg) skewY(10deg);
+        background-position: 0 100%;
     }
 
     100% {
-        transform: translateX(-50%) translateY(20px) skewX(-15deg) skewY(5deg);
+        background-position: 0 300%;
     }
+}
+
+@keyframes aura-glow {
+    0% {
+        background-position: 0 100%;
+    }
+
+    100% {
+        background-position: 0 300%;
+    }
+}
+
+a-hole .aura {
+    position: absolute;
+    top: -80%;
+    left: 50%;
+    z-index: 3;
+    width: 70%;
+    height: 130%;
+    background: linear-gradient(60deg, #00f8f055, #ffbc1e50 16.5%, #fe848e4a 33%, #fe848e46 49.5%, #00f8f053 66%, #00f8f052 85.5%, #ffbc1e60 100%) 0 100%/100% 200%;
+    border-radius: 0 0 100% 100%;
+    filter: blur(100px);
+    mix-blend-mode: plus-lighter;
+    opacity: 0.1;
+    transform: translate3d(-50%, 0, 0);
+    -webkit-animation: aura-glow 10s infinite ease-in-out;
+    animation: aura-glow 10s infinite ease-in-out;
+}
+
+a-hole .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(transparent, transparent 1px, white 1px, white 2px);
+    mix-blend-mode: overlay;
+    opacity: 0.5;
+}
+
+a-hole canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
