@@ -42,3 +42,41 @@ Some of these considerations:
 
 The result: run `sshls` to see the servers I have defined, and run `ssh serverbox` to connect to one.
 Shorthand for my current SSH setup while leaving OpenSSH to do what it already does well; mission accomplished!
+
+---
+
+```console
+> sshls
+
+NAME        DESTINATION         TAGS
+brainbox    xander@10.0.0.123   agents, ai, inference
+serverbox   xander@10.0.0.321   game-hosting, relay, server
+```
+
+---
+
+```console
+> sshls -h
+A small, durable inventory for SSH destinations.
+
+Usage: sshls.exe [COMMAND]
+
+Commands:
+  show      Show one managed destination
+  find      Search names, destinations, users, and tags
+  resolve   Show what the installed SSH client will actually use
+  test      Attempt a bounded, non-interactive SSH connection
+  add       Add a managed destination
+  edit      Changed a managed destination
+  clone     Duplicate a managed destination
+  rename    Rename a managed destination
+  rm        Forget a managed destination
+  tag       Manage tags
+  config    Check or regenerate OpenSSH configuration
+
+Options:
+  -h, --help      Print help
+  -V, --version   Print version
+```
+
+---
