@@ -36,7 +36,7 @@ const projectCategories = [
 <BaseLayout>
     <section class="flex flex-col gap-y-4">
         <section>
-            <h1 class="text-xl font-semibold border-b mb-2">About</h1>
+            <h1 class="text-2xl font-semibold border-b mb-2">About</h1>
 
             <section class="flex flex-col gap-y-2">
                 <p>
@@ -62,14 +62,18 @@ const projectCategories = [
         </section>
 
         <section id="projects">
-            <h1 class="text-xl font-semibold border-b mb-2">Projects</h1>
+            <h1 class="text-2xl font-semibold border-b mb-2">Projects</h1>
 
             <div class="flex flex-col gap-y-4">
                 {
                     projectCategories.map((category) => (
                         <section>
-                            <h2 class="text-lg font-bold">{category.title}</h2>
-                            <p>{category.description}</p>
+                            <div class="bg-slate-200 border-y px-1">
+                                <h2 class="text-xl font-bold">
+                                    {category.title}
+                                </h2>
+                                <p>{category.description}</p>
+                            </div>
 
                             <ul class="flex flex-col gap-y-3 pt-2">
                                 {projects
@@ -123,7 +127,7 @@ const projectCategories = [
         </section>
 
         <section>
-            <h1 class="text-xl font-semibold border-b mb-2">Contact</h1>
+            <h1 class="text-2xl font-semibold border-b mb-2">Contact</h1>
             <p>
                 I like weird propositions; you can send them to me at <a
                     href="mailto:hello@xandwr.com"
