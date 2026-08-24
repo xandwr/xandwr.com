@@ -2,6 +2,7 @@
 title: xandwr.com
 description: My digital real estate.
 href: /
+category: personal
 tags:
   - Astro
   - Tailwind CSS

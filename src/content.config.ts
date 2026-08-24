@@ -9,6 +9,7 @@ const projects = defineCollection({
         description: z.string(),
         href: z.string(),
         repository: z.string().url().optional(),
+        category: z.enum(["tooling", "personal", "games"]),
         tags: z.array(z.string()).default([]),
         order: z.number().int().nonnegative().default(0),
         draft: z.boolean().default(false),

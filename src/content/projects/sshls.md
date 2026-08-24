@@ -3,9 +3,10 @@ title: sshls
 description: A small Rust utility for keeping track of SSH destinations and generating a local OpenSSH configuration.
 href: "#sshls"
 repository: https://github.com/xandwr/sshls
+category: tooling
 tags:
   - Rust
-order: 2
+order: 3
 writeup: true
 ---
 

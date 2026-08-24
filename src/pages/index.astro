@@ -12,6 +12,25 @@ const projects = await Promise.all(
         Content: (await render(project)).Content,
     })),
 );
+
+const projectCategories = [
+    {
+        id: "tooling",
+        title: "Tooling",
+        description:
+            "Tools I've built for others to use; things I'd consider production-ready.",
+    },
+    {
+        id: "personal",
+        title: "Personal",
+        description: "Projects related to personal development or exploration.",
+    },
+    {
+        id: "games",
+        title: "Games",
+        description: "The zany things I can't stop making.",
+    },
+] as const;
 ---
 
 <BaseLayout>
@@ -44,45 +63,63 @@ const projects = await Promise.all(
 
         <section id="projects">
             <h1 class="text-xl font-semibold border-b mb-2">Projects</h1>
-            <ul class="flex flex-col gap-y-3 pt-2">
+
+            <div class="flex flex-col gap-y-4">
                 {
-                    projects.map(({ id, data, Content }) => (
-                        <li id={id}>
-                            <div class="flex flex-wrap items-baseline gap-x-2">
-                                <h2 class="font-semibold">
-                                    <a class="underline" href={data.href}>
-                                        {data.title}
-                                    </a>
-                                </h2>
-                                {data.repository && (
-                                    <a
-                                        class="text-sm underline"
-                                        href={data.repository}
-                                    >
-                                        source
-                                    </a>
-                                )}
-                            </div>
-                            <p>{data.description}</p>
-                            {data.tags.length > 0 && (
-                                <p class="text-sm text-slate-600">
-                                    {data.tags.join(" · ")}
-                                </p>
-                            )}
-                            {data.writeup && (
-                                <details class="mt-2">
-                                    <summary class="cursor-pointer underline">
-                                        Read the write-up
-                                    </summary>
-                                    <div class="writeup mt-2 border-l border-slate-300 pl-3">
-                                        <Content />
-                                    </div>
-                                </details>
-                            )}
-                        </li>
+                    projectCategories.map((category) => (
+                        <section>
+                            <h2 class="text-lg font-bold">{category.title}</h2>
+                            <p>{category.description}</p>
+
+                            <ul class="flex flex-col gap-y-3 pt-2">
+                                {projects
+                                    .filter(
+                                        ({ data }) =>
+                                            data.category === category.id,
+                                    )
+                                    .map(({ id, data, Content }) => (
+                                        <li id={id}>
+                                            <div class="flex flex-wrap items-baseline gap-x-2">
+                                                <h3 class="font-semibold">
+                                                    <a
+                                                        class="underline"
+                                                        href={data.href}
+                                                    >
+                                                        {data.title}
+                                                    </a>
+                                                </h3>
+                                                {data.repository && (
+                                                    <a
+                                                        class="text-sm underline"
+                                                        href={data.repository}
+                                                    >
+                                                        source
+                                                    </a>
+                                                )}
+                                            </div>
+                                            <p>{data.description}</p>
+                                            {data.tags.length > 0 && (
+                                                <p class="text-sm text-slate-600">
+                                                    {data.tags.join(" · ")}
+                                                </p>
+                                            )}
+                                            {data.writeup && (
+                                                <details class="mt-2">
+                                                    <summary class="cursor-pointer underline">
+                                                        Read the write-up
+                                                    </summary>
+                                                    <div class="writeup mt-2 border-l border-slate-300 pl-3">
+                                                        <Content />
+                                                    </div>
+                                                </details>
+                                            )}
+                                        </li>
+                                    ))}
+                            </ul>
+                        </section>
                     ))
                 }
-            </ul>
+            </div>
         </section>
 
         <section>
