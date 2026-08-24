@@ -1,9 +1,12 @@
 ---
 title: xandwr.com
-description: The site you are looking at now.
+description: My digital real estate.
 href: /
 tags:
   - Astro
   - Tailwind CSS
 order: 1
+writeup: true
 ---
+
+Needed my own site so I could have little conversations with some hypothetical user visiting it; perhaps even the one reading these words right now... ;)
