@@ -4,4 +4,39 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout>
     <h1 class="text-2xl font-semibold">My Resume</h1>
+    <p>
+        This is a digital version of my resume I've created to make evaluating
+        my job candidacy easier.
+    </p>
+
+    <p>
+        You can try it out by selecting one of the scope types in the dropdown
+        below and watching this page update in real time!
+    </p>
+
+    <div class="flex gap-2 items-center">
+        <select class="border h-6">
+            <option>Software Development</option>
+            <option>Hardware Engineering</option>
+            <option>AI/ML</option>
+            <option>Embedded Development/IoT</option>
+        </select>
+        <button
+            type="button"
+            class="flex size-6 cursor-pointer items-center justify-center border hover:bg-slate-100 print:hidden"
+            aria-label="Print resume"
+            title="Print resume"
+            data-print-resume
+        >
+            <img src="/printer.svg" alt="" class="size-4" />
+        </button>
+    </div>
 </BaseLayout>
+
+<script>
+    document
+        .querySelector("[data-print-resume]")
+        ?.addEventListener("click", () => {
+            window.print();
+        });
+</script>
