@@ -1,0 +1,31 @@
+---
+import "../styles/style.css";
+import Header from "../components/Header.astro";
+
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const {
+    title = "xandwr.com",
+    description = "Xander Pickering - Software developer and hardware engineer in Edmonton, AB",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={description} />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <title>{title}</title>
+    </head>
+    <body>
+        <Header />
+        <main>
+            <slot />
+        </main>
+    </body>
+</html>
