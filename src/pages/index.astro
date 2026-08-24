@@ -36,15 +36,13 @@ const projectCategories = [
 <BaseLayout>
     <section class="flex flex-col gap-y-4">
         <section>
-            <h1 class="text-2xl font-semibold border-b mb-2">About</h1>
-
             <section class="flex flex-col gap-y-2">
                 <p>
-                    I'm Xander, a developer in Edmonton, Alberta, and I like
-                    having weird ideas and letting them grow into real work. My
-                    interests span software development, hardware engineering,
-                    robotics, local inference, and game design, but a lot of
-                    what I make still comes down to where the wind takes me.
+                    I'm Xander, a developer in Edmonton AB, and I have weird
+                    ideas which tend to grow into real work. My interests span
+                    software development, hardware engineering, robotics, local
+                    inference, and game design, but a lot of what I make still
+                    comes down to where the wind takes me.
                 </p>
 
                 <p>
@@ -72,7 +70,7 @@ const projectCategories = [
                                 <h2 class="text-xl font-bold">
                                     {category.title}
                                 </h2>
-                                <p>{category.description}</p>
+                                <p class="italic">{category.description}</p>
                             </div>
 
                             <ul class="flex flex-col gap-y-3 pt-2">
@@ -124,16 +122,6 @@ const projectCategories = [
                     ))
                 }
             </div>
-        </section>
-
-        <section>
-            <h1 class="text-2xl font-semibold border-b mb-2">Contact</h1>
-            <p>
-                I like weird propositions; you can send them to me at <a
-                    href="mailto:hello@xandwr.com"
-                    class="underline">hello@xandwr.com</a
-                >.
-            </p>
         </section>
     </section>
 </BaseLayout>

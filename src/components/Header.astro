@@ -3,5 +3,47 @@
 ---
 
 <header class="bg-slate-300 p-2 border-b">
-    <h1 class="text-2xl">(ale)xander pickering</h1>
+    <a href="/" class="text-2xl">(ale)xander pickering</a>
+
+    <nav class="flex gap-2 items-center">
+        <a href="/" class="hover:text-blue-600">home</a>
+        <a href="/resume" class="hover:text-blue-600">resume</a>
+        <span class="contact-control inline-flex items-center rounded">
+            <button
+                type="button"
+                class="cursor-pointer pl-1 hover:text-blue-600"
+                aria-expanded="false"
+                aria-controls="contact-email"
+                data-contact-toggle
+            >
+                email
+            </button>
+            <span id="contact-email" class="pr-1" hidden>
+                <span aria-hidden="true" class="mr-1">:</span>
+                <a href="mailto:hello@xandwr.com" class="hover:text-orange-600">
+                    hello@xandwr.com
+                </a>
+            </span>
+        </span>
+    </nav>
 </header>
+
+<script>
+    const contactToggle = document.querySelector<HTMLButtonElement>(
+        "[data-contact-toggle]",
+    );
+    const contactEmail = document.querySelector<HTMLElement>("#contact-email");
+
+    contactToggle?.addEventListener("click", () => {
+        const isVisible = !contactEmail?.hidden;
+
+        if (contactEmail) contactEmail.hidden = isVisible;
+        contactToggle.setAttribute("aria-expanded", String(!isVisible));
+    });
+</script>
+
+<style>
+    .contact-control:has([aria-expanded="true"]) {
+        background: var(--color-slate-200);
+    }
+</style>
