@@ -2,4 +2,43 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout>test</BaseLayout>
+<BaseLayout>
+    <section class="flex flex-col gap-y-4">
+        <section>
+            <h1 class="text-xl font-semibold border-b">About</h1>
+            <p>
+                I'm Xander, a developer in Edmonton, Alberta, and I like having
+                weird ideas and letting them grow into real tools. My interests
+                span software development, hardware engineering, robotics, local
+                inference, and game design, but a lot of what I make still comes
+                down to where the wind takes me.
+            </p>
+            <p>
+                Beneath the above all being computer-related, I've found that Da
+                Computer has become less the actual <i>subject</i> of my exploration,
+                and more a tool for orchestrating it. <a
+                    href="https://softwarequotes.com/quote/everything-really-interesting-that-happens-in-soft"
+                    target="_blank"
+                    class="underline"
+                    >The most interesting things in software always lead back to
+                    people</a
+                >, after all.
+            </p>
+        </section>
+
+        <section>
+            <h1 class="text-xl font-semibold border-b">Projects</h1>
+            <p>projects</p>
+        </section>
+
+        <section>
+            <h1 class="text-xl font-semibold border-b">Contact</h1>
+            <p>
+                I like weird propositions; you can send them to me at <a
+                    href="mailto:hello@xandwr.com"
+                    class="underline">hello@xandwr.com</a
+                >.
+            </p>
+        </section>
+    </section>
+</BaseLayout>
