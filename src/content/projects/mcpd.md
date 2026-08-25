@@ -7,5 +7,5 @@ category: tooling
 tags:
   - Rust
 order: 2
-writeup: true
+writeup: false
 ---

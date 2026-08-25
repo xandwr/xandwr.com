@@ -8,5 +8,5 @@ tags:
   - Gamedev
   - Personal
 order: 5
-writeup: true
+writeup: false
 ---
