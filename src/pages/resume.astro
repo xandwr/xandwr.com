@@ -2,18 +2,25 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const [profileEntry, educationEntries, experienceEntries, projectEntries] =
-    await Promise.all([
-        getCollection("resume").then(([profile]) => profile),
+const profileEntries = await getCollection("resume");
+const [educationEntries, experienceEntries, projectEntries] = await Promise.all(
+    [
         getCollection("education", ({ data }) => data.resume.enabled),
         getCollection("experience", ({ data }) => data.resume.enabled),
-        getCollection("projects", ({ data }) => !data.draft && Boolean(data.resume?.enabled)),
-    ]);
+        getCollection(
+            "projects",
+            ({ data }) => !data.draft && Boolean(data.resume?.enabled),
+        ),
+    ],
+);
 
+const [profileEntry] = profileEntries;
 if (!profileEntry) throw new Error("The resume profile is missing.");
 
 const { data: profile } = profileEntry;
-const education = educationEntries.sort((a, b) => a.data.resume.order - b.data.resume.order);
+const education = educationEntries.sort(
+    (a, b) => a.data.resume.order - b.data.resume.order,
+);
 const employment = experienceEntries
     .filter(({ data }) => data.section === "employment")
     .sort((a, b) => a.data.resume.order - b.data.resume.order);
@@ -31,27 +38,54 @@ const scopes = [
 ] as const;
 ---
 
-<BaseLayout title={`${profile.name} — Resume`} description={`${profile.name}, ${profile.headline} in ${profile.location}`}>
+<BaseLayout
+    title={`${profile.name} — Resume`}
+    description={`${profile.name}, ${profile.headline} in ${profile.location}`}
+>
     <article class="resume mx-auto max-w-4xl" data-resume>
         <header class="border-b pb-3">
             <h1 class="text-3xl font-bold uppercase">{profile.name}</h1>
             <p class="text-lg uppercase">
-                {profile.headline} — <span data-focus-label>Software Development</span>
+                {profile.headline} -- <span data-focus-label
+                    >Software Development</span
+                >
             </p>
             <address class="mt-2 flex flex-wrap gap-x-3 text-sm not-italic">
                 <span>{profile.location}</span>
-                <a class="underline" href={`mailto:${profile.email}`}>{profile.email}</a>
-                <a class="underline" href={`https://${profile.linkedin}`}>{profile.linkedin}</a>
-                <a class="underline" href={`tel:${profile.phone.replace(/[^+\d]/g, "")}`}>{profile.phone}</a>
+                <a class="underline" href={`mailto:${profile.email}`}
+                    >{profile.email}</a
+                >
+                <a class="underline" href={`https://${profile.linkedin}`}
+                    >{profile.linkedin}</a
+                >
+                <a
+                    class="underline"
+                    href={`tel:${profile.phone.replace(/[^+\d]/g, "")}`}
+                    >{profile.phone}</a
+                >
             </address>
         </header>
 
         <div class="my-4 flex items-center gap-2 print:hidden">
             <label for="resume-scope">Focus:</label>
-            <select id="resume-scope" class="h-7 border bg-white px-1" data-resume-scope>
-                {scopes.map((scope) => <option value={scope.value}>{scope.label}</option>)}
+            <select
+                id="resume-scope"
+                class="h-7 border bg-white px-1"
+                data-resume-scope
+            >
+                {
+                    scopes.map((scope) => (
+                        <option value={scope.value}>{scope.label}</option>
+                    ))
+                }
             </select>
-            <button type="button" class="flex size-7 cursor-pointer items-center justify-center border hover:bg-slate-100" aria-label="Print resume" title="Print resume" data-print-resume>
+            <button
+                type="button"
+                class="flex size-7 cursor-pointer items-center justify-center border hover:bg-slate-100"
+                aria-label="Print resume"
+                title="Print resume"
+                data-print-resume
+            >
                 <img src="/printer.svg" alt="" class="size-4" />
             </button>
         </div>
@@ -64,74 +98,151 @@ const scopes = [
         <section class="resume-section" data-resume-section>
             <h2>Education</h2>
             <div class="resume-entries">
-                {education.map(({ data }) => (
-                    <section data-scopes={data.resume.scopes.join(" ")}>
-                        <div class="resume-entry-heading">
-                            <h3>{data.credential}{data.distinction && ` (${data.distinction})`}</h3>
-                            <span>{data.endDate === "2027" ? "Graduation 2027" : `Graduated ${data.endDate}`}</span>
-                        </div>
-                        <p>{data.institution}, {data.location}</p>
-                        {data.highlights.length > 0 && <ul>{data.highlights.map((item) => <li>{item}</li>)}</ul>}
-                    </section>
-                ))}
+                {
+                    education.map(({ data }) => (
+                        <section data-scopes={data.resume.scopes.join(" ")}>
+                            <div class="resume-entry-heading">
+                                <h3>
+                                    {data.credential}
+                                    {data.distinction &&
+                                        ` (${data.distinction})`}
+                                </h3>
+                                <span>
+                                    {data.endDate === "2027"
+                                        ? "Graduation 2027"
+                                        : `Graduated ${data.endDate}`}
+                                </span>
+                            </div>
+                            <p>
+                                {data.institution}, {data.location}
+                            </p>
+                            {data.highlights.length > 0 && (
+                                <ul>
+                                    {data.highlights.map((item) => (
+                                        <li>{item}</li>
+                                    ))}
+                                </ul>
+                            )}
+                        </section>
+                    ))
+                }
             </div>
         </section>
 
         <section class="resume-section" data-resume-section>
             <h2>Employment Experience</h2>
             <div class="resume-entries">
-                {employment.map(({ data }) => (
-                    <section data-scopes={data.resume.scopes.join(" ")}>
-                        <div class="resume-entry-heading"><h3>{data.title}</h3><span>{data.startDate} – {data.endDate}</span></div>
-                        <p>{data.organization}, {data.location}</p>
-                        <ul>{data.highlights.map((item) => <li>{item}</li>)}</ul>
-                    </section>
-                ))}
+                {
+                    employment.map(({ data }) => (
+                        <section data-scopes={data.resume.scopes.join(" ")}>
+                            <div class="resume-entry-heading">
+                                <>
+                                    <h3>{data.title}</h3>
+                                    <span>
+                                        {data.startDate} – {data.endDate}
+                                    </span>
+                                </>
+                            </div>
+                            <p>
+                                {data.organization}, {data.location}
+                            </p>
+                            <ul>
+                                {data.highlights.map((item) => (
+                                    <li>{item}</li>
+                                ))}
+                            </ul>
+                        </section>
+                    ))
+                }
             </div>
         </section>
 
         <section class="resume-section" data-resume-section>
             <h2>Projects</h2>
             <div class="resume-entries">
-                {projects.map(({ id, data }) => (
-                    <section id={`resume-${id}`} data-scopes={data.resume!.scopes.join(" ")}>
-                        <div class="resume-entry-heading"><h3>{data.title}</h3>{data.date && <span>{data.date}</span>}</div>
-                        <p>{data.description}</p>
-                        <ul>{data.resume!.highlights.map((item) => <li>{item}</li>)}</ul>
-                    </section>
-                ))}
+                {
+                    projects.map(({ id, data }) => (
+                        <section
+                            id={`resume-${id}`}
+                            data-scopes={data.resume!.scopes.join(" ")}
+                        >
+                            <div class="resume-entry-heading">
+                                <h3>{data.title}</h3>
+                                {data.date && <span>{data.date}</span>}
+                            </div>
+                            <p>{data.description}</p>
+                            <ul>
+                                {data.resume!.highlights.map((item) => (
+                                    <li>{item}</li>
+                                ))}
+                            </ul>
+                        </section>
+                    ))
+                }
             </div>
         </section>
 
         <section class="resume-section" data-resume-section>
             <h2>Community Volunteer Leadership</h2>
             <div class="resume-entries">
-                {community.map(({ data }) => (
-                    <section data-scopes={data.resume.scopes.join(" ")}>
-                        <div class="resume-entry-heading"><h3>{data.title}</h3><span>{data.startDate} – {data.endDate}</span></div>
-                        <p>{data.organization ? `${data.organization}, ` : ""}{data.location}</p>
-                        <ul>{data.highlights.map((item) => <li>{item}</li>)}</ul>
-                    </section>
-                ))}
+                {
+                    community.map(({ data }) => (
+                        <section data-scopes={data.resume.scopes.join(" ")}>
+                            <div class="resume-entry-heading">
+                                <>
+                                    <h3>{data.title}</h3>
+                                    <span>
+                                        {data.startDate} – {data.endDate}
+                                    </span>
+                                </>
+                            </div>
+                            <p>
+                                {data.organization
+                                    ? `${data.organization}, `
+                                    : ""}
+                                {data.location}
+                            </p>
+                            <ul>
+                                {data.highlights.map((item) => (
+                                    <li>{item}</li>
+                                ))}
+                            </ul>
+                        </section>
+                    ))
+                }
             </div>
         </section>
     </article>
 </BaseLayout>
 
 <script>
-    const scopeSelect = document.querySelector<HTMLSelectElement>("[data-resume-scope]");
-    const focusLabel = document.querySelector<HTMLElement>("[data-focus-label]");
+    const scopeSelect = document.querySelector<HTMLSelectElement>(
+        "[data-resume-scope]",
+    );
+    const focusLabel =
+        document.querySelector<HTMLElement>("[data-focus-label]");
 
     const updateScope = () => {
         const selectedScope = scopeSelect?.value;
-        document.querySelectorAll<HTMLElement>("[data-scopes]").forEach((entry) => {
-            entry.hidden = Boolean(selectedScope && !entry.dataset.scopes?.split(" ").includes(selectedScope));
-        });
+        document
+            .querySelectorAll<HTMLElement>("[data-scopes]")
+            .forEach((entry) => {
+                entry.hidden = Boolean(
+                    selectedScope &&
+                    !entry.dataset.scopes?.split(" ").includes(selectedScope),
+                );
+            });
 
-        document.querySelectorAll<HTMLElement>("[data-resume-section]").forEach((section) => {
-            const entries = [...section.querySelectorAll<HTMLElement>("[data-scopes]")];
-            section.hidden = entries.length > 0 && entries.every((entry) => entry.hidden);
-        });
+        document
+            .querySelectorAll<HTMLElement>("[data-resume-section]")
+            .forEach((section) => {
+                const entries = [
+                    ...section.querySelectorAll<HTMLElement>("[data-scopes]"),
+                ];
+                section.hidden =
+                    entries.length > 0 &&
+                    entries.every((entry) => entry.hidden);
+            });
 
         const selectedLabel = scopeSelect?.selectedOptions[0]?.textContent;
         if (focusLabel && selectedLabel) focusLabel.textContent = selectedLabel;
@@ -143,25 +254,60 @@ const scopes = [
         }
     };
 
-    const requestedScope = new URL(window.location.href).searchParams.get("focus");
-    if (scopeSelect && requestedScope && [...scopeSelect.options].some(({ value }) => value === requestedScope)) {
+    const requestedScope = new URL(window.location.href).searchParams.get(
+        "focus",
+    );
+    if (
+        scopeSelect &&
+        requestedScope &&
+        [...scopeSelect.options].some(({ value }) => value === requestedScope)
+    ) {
         scopeSelect.value = requestedScope;
     }
 
     scopeSelect?.addEventListener("change", updateScope);
     updateScope();
-    document.querySelector("[data-print-resume]")?.addEventListener("click", () => window.print());
+    document
+        .querySelector("[data-print-resume]")
+        ?.addEventListener("click", () => window.print());
 </script>
 
 <style>
-    .resume-section { margin-top: 1rem; }
-    .resume-section > h2 { margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-slate-400); font-size: 1.25rem; font-weight: 700; text-transform: uppercase; }
-    .resume-entries { display: flex; flex-direction: column; gap: 0.875rem; }
-    .resume-entry-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1rem; }
-    .resume-entry-heading h3 { font-weight: 700; }
-    .resume-section ul { list-style: disc; padding-left: 1.25rem; }
+    .resume-section {
+        margin-top: 1rem;
+    }
+    .resume-section > h2 {
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid var(--color-slate-400);
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    .resume-entries {
+        display: flex;
+        flex-direction: column;
+        gap: 0.875rem;
+    }
+    .resume-entry-heading {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0 1rem;
+    }
+    .resume-entry-heading h3 {
+        font-weight: 700;
+    }
+    .resume-section ul {
+        list-style: disc;
+        padding-left: 1.25rem;
+    }
     @media print {
-        .resume { max-width: none; font-size: 10pt; }
-        .resume-section { break-inside: avoid; }
+        .resume {
+            max-width: none;
+            font-size: 10pt;
+        }
+        .resume-section {
+            break-inside: avoid;
+        }
     }
 </style>
