@@ -12,4 +12,6 @@ highlights:
 resume:
   enabled: true
   order: 5
+  scopes:
+    - hardware
 ---

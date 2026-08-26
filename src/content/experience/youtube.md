@@ -12,4 +12,7 @@ highlights:
 resume:
   enabled: true
   order: 4
+  scopes:
+    - software
+    - ai-ml
 ---

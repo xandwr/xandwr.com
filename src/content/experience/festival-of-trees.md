@@ -12,4 +12,8 @@ highlights:
 resume:
   enabled: true
   order: 1
+  scopes:
+    - software
+    - hardware
+    - embedded
 ---

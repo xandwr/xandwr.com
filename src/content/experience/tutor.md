@@ -10,4 +10,6 @@ highlights:
 resume:
   enabled: true
   order: 2
+  scopes:
+    - ai-ml
 ---
