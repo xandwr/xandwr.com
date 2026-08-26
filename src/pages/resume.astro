@@ -302,11 +302,20 @@ const scopes = [
         padding-left: 1.25rem;
     }
     @media print {
+        @page {
+            margin: 0.75in 0.5in;
+        }
+
         .resume {
             max-width: none;
             font-size: 10pt;
         }
-        .resume-section {
+
+        .resume-section > h2 {
+            break-after: avoid;
+        }
+
+        .resume-entries > section {
             break-inside: avoid;
         }
     }
