@@ -10,5 +10,5 @@ tags:
   - Embedded
   - Firmware
 order: 4
-writeup: true
+writeup: false
 ---
