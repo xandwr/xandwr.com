@@ -1,7 +1,7 @@
 ---
 title: GPTi84-Plus
 description: Fulfilling a childhood dream.
-href: "#mcpd"
+href: "#gpti84-plus"
 repository: https://github.com/xandwr/GPTi84-Plus
 category: personal
 tags:
