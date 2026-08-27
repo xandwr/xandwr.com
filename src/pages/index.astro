@@ -1,17 +1,10 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const projectEntries = (
+const projects = (
     await getCollection("projects", ({ data }) => !data.draft)
 ).sort((a, b) => a.data.order - b.data.order);
-
-const projects = await Promise.all(
-    projectEntries.map(async (project) => ({
-        ...project,
-        Content: (await render(project)).Content,
-    })),
-);
 
 const projectCategories = [
     {
@@ -79,13 +72,17 @@ const projectCategories = [
                                         ({ data }) =>
                                             data.category === category.id,
                                     )
-                                    .map(({ id, data, Content }) => (
+                                    .map(({ id, data }) => (
                                         <li id={id}>
                                             <div class="flex flex-wrap items-baseline gap-x-2">
                                                 <h3 class="font-semibold">
                                                     <a
                                                         class="underline"
-                                                        href={data.href}
+                                                        href={
+                                                            data.writeup
+                                                                ? `/projects/${id}`
+                                                                : data.href
+                                                        }
                                                     >
                                                         {data.title}
                                                     </a>
@@ -106,14 +103,14 @@ const projectCategories = [
                                                 </p>
                                             )}
                                             {data.writeup && (
-                                                <details class="mt-2">
-                                                    <summary class="cursor-pointer underline">
+                                                <p class="mt-1">
+                                                    <a
+                                                        class="underline"
+                                                        href={`/projects/${id}`}
+                                                    >
                                                         Read the write-up
-                                                    </summary>
-                                                    <div class="writeup mt-2 border-l border-slate-300 pl-3">
-                                                        <Content />
-                                                    </div>
-                                                </details>
+                                                    </a>
+                                                </p>
                                             )}
                                         </li>
                                     ))}
