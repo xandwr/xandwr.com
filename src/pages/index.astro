@@ -27,9 +27,9 @@ const projectCategories = [
 ---
 
 <BaseLayout>
-    <section class="mx-auto flex max-w-[88ch] flex-col gap-y-4">
-        <section>
-            <section class="flex flex-col gap-y-2">
+    <section class="flex flex-col gap-y-4 w-full m-auto">
+        <section class="mx-auto w-full max-w-3xl">
+            <section class="flex flex-col gap-y-2 px-2">
                 <p>
                     I'm Xander, a developer in Edmonton AB, and I have weird
                     ideas which tend to grow into real work. My interests span
@@ -52,21 +52,27 @@ const projectCategories = [
             </section>
         </section>
 
-        <section id="projects">
-            <h1 class="text-2xl font-semibold border-b mb-2">Projects</h1>
+        <section id="projects" class="">
+            <div class="-mx-2 mb-2">
+                <h1 class="mx-auto px-2 max-w-3xl text-2xl font-semibold">
+                    Projects
+                </h1>
+            </div>
 
             <div class="flex flex-col gap-y-4">
                 {
                     projectCategories.map((category) => (
                         <section>
-                            <div class="bg-slate-200 border-y px-1">
-                                <h2 class="text-xl font-bold">
-                                    {category.title}
-                                </h2>
-                                <p class="italic">{category.description}</p>
+                            <div class="-mx-2 border-y bg-slate-200">
+                                <div class="mx-auto max-w-3xl px-2">
+                                    <h2 class="text-xl font-bold">
+                                        {category.title}
+                                    </h2>
+                                    <p class="italic">{category.description}</p>
+                                </div>
                             </div>
 
-                            <ul class="flex flex-col gap-y-3 pt-2">
+                            <ul class="mx-auto flex max-w-3xl flex-col gap-y-3 pt-2 px-2">
                                 {projects
                                     .filter(
                                         ({ data }) =>
