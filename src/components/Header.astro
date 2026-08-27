@@ -1,5 +1,7 @@
 ---
-
+const pathname = Astro.url.pathname;
+const isHome = pathname === "/";
+const isResume = pathname === "/resume" || pathname === "/resume/";
 ---
 
 <header class="bg-slate-300 p-2 border-b print:hidden">
@@ -7,8 +9,8 @@
         <a href="/" class="text-2xl">(ale)xander pickering</a>
 
         <nav class="flex gap-3 items-center">
-            <a href="/" class="hover:text-blue-600">home</a>
-            <a href="/resume" class="hover:text-blue-600">resume</a>
+            <a href="/" class="hover:text-blue-600" aria-current={isHome ? "page" : undefined}>home</a>
+            <a href="/resume" class="hover:text-blue-600" aria-current={isResume ? "page" : undefined}>resume</a>
             <span class="contact-control inline-flex items-center rounded">
                 <button
                     type="button"

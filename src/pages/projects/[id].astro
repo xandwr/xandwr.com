@@ -17,9 +17,25 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 const { data } = project;
+const canonicalURL = new URL(`/projects/${project.id}/`, Astro.site).href;
+const projectData = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: data.title,
+    description: data.description,
+    url: canonicalURL,
+    codeRepository: data.repository,
+    programmingLanguage: data.tags,
+    author: { "@id": new URL("/#xander", Astro.site).href },
+};
 ---
 
-<BaseLayout title={`${data.title} (xandwr.com)`} description={data.description}>
+<BaseLayout
+    title={`${data.title} (xandwr.com)`}
+    description={data.description}
+    type="article"
+    structuredData={projectData}
+>
     <article class="project-writeup">
         <nav aria-label="Breadcrumb" class="mb-4 text-sm">
             <a class="underline" href="/#projects">Projects</a>
