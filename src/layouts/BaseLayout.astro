@@ -5,11 +5,13 @@ import Header from "../components/Header.astro";
 interface Props {
     title?: string;
     description?: string;
+    noindex?: boolean;
 }
 
 const {
     title = "xandwr.com",
     description = "Xander Pickering - Software developer and hardware engineer in Edmonton, AB",
+    noindex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -21,14 +23,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={description} />
-        <link rel="canonical" href={canonicalURL} />
+        {noindex && <meta name="robots" content="noindex" />}
+        {!noindex && <link rel="canonical" href={canonicalURL} />}
 
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="xandwr.com" />
         <meta property="og:locale" content="en_CA" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:url" content={canonicalURL} />
+        {!noindex && <meta property="og:url" content={canonicalURL} />}
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={title} />
