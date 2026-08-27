@@ -69,7 +69,6 @@ const resume = defineCollection({
         headline: z.string(),
         location: z.string(),
         email: z.string().email(),
-        phone: z.string(),
         linkedin: z.string(),
         about: z.array(z.string()),
     }),
