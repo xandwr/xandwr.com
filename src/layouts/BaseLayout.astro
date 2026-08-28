@@ -1,16 +1,62 @@
 ---
 import "../styles/style.css";
 import Header from "../components/Header.astro";
+import { getCollection } from "astro:content";
 
 interface Props {
     title?: string;
     description?: string;
+    noindex?: boolean;
+    type?: "website" | "article";
+    structuredData?: Record<string, unknown>;
 }
 
 const {
     title = "xandwr.com",
     description = "Xander Pickering - Software developer and hardware engineer in Edmonton, AB",
+    noindex = false,
+    type = "website",
+    structuredData,
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL("/images/xandwr_site_banner.png", Astro.site);
+const [profileEntry] = await getCollection("resume");
+if (!profileEntry) throw new Error("The resume profile is missing.");
+
+const { data: profile } = profileEntry;
+const githubURL = "https://github.com/xandwr";
+const linkedinURL = `https://${profile.linkedin}`;
+const personData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": new URL("/#xander", Astro.site).href,
+    name: profile.name,
+    url: new URL("/", Astro.site).href,
+    email: `mailto:${profile.email}`,
+    homeLocation: {
+        "@type": "Place",
+        name: profile.location,
+    },
+    sameAs: [githubURL, linkedinURL],
+};
+
+const jsonLdValue = structuredData
+    ? {
+          "@context": "https://schema.org",
+          "@graph": [
+              Object.fromEntries(
+                  Object.entries(personData).filter(([key]) => key !== "@context"),
+              ),
+              Object.fromEntries(
+                  Object.entries(structuredData).filter(
+                      ([key]) => key !== "@context",
+                  ),
+              ),
+          ],
+      }
+    : personData;
+const jsonLd = JSON.stringify(jsonLdValue).replace(/</g, "\\u003c");
 ---
 
 <!doctype html>
@@ -19,13 +65,48 @@ const {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={description} />
+        {noindex && <meta name="robots" content="noindex" />}
+        {!noindex && <link rel="canonical" href={canonicalURL} />}
+
+        <meta property="og:type" content={type} />
+        <meta property="og:site_name" content="xandwr.com" />
+        <meta property="og:locale" content="en_CA" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        {!noindex && <meta property="og:url" content={canonicalURL} />}
+        <meta property="og:image" content={socialImageURL} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+            property="og:image:alt"
+            content="xandwr.com above a pixel-art skull"
+        />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={socialImageURL} />
+        <meta
+            name="twitter:image:alt"
+            content="xandwr.com above a pixel-art skull"
+        />
+
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <script type="application/ld+json" set:html={jsonLd} />
         <title>{title}</title>
     </head>
     <body>
+        <a class="skip-link" href="#main-content">Skip to content</a>
         <Header />
-        <main class="p-2">
+        <main id="main-content" class="p-2 print:p-0" tabindex="-1">
             <slot />
         </main>
+        <footer class="mx-auto mt-8 flex max-w-3xl flex-wrap gap-x-3 border-t px-4 py-3 text-sm print:hidden">
+            <a class="underline" href={githubURL} rel="me">GitHub</a>
+            <a class="underline" href={linkedinURL} rel="me">LinkedIn</a>
+            <a class="underline" href={`mailto:${profile.email}`}>Email</a>
+            <span class="ml-auto">© {new Date().getFullYear()} {profile.name}</span>
+        </footer>
     </body>
 </html>

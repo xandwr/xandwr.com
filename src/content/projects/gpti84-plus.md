@@ -1,7 +1,7 @@
 ---
 title: GPTi84-Plus
 description: Fulfilling a childhood dream.
-href: "#mcpd"
+href: "#gpti84-plus"
 repository: https://github.com/xandwr/GPTi84-Plus
 category: personal
 tags:
@@ -10,7 +10,7 @@ tags:
   - Embedded
   - Firmware
 order: 4
-writeup: true
+writeup: false
 ---
 
 It's a TI-84 Plus that talks to a large language model using some bit-banging of the serial port on the calculator, a wireless microcontroller, and a whole lot of head-scratching.

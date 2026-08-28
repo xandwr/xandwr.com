@@ -5,6 +5,40 @@ body {
     font-family: serif;
 }
 
+:focus-visible {
+    outline: 3px solid var(--color-blue-600);
+    outline-offset: 3px;
+}
+
+.skip-link {
+    position: fixed;
+    z-index: 50;
+    top: 0.5rem;
+    left: 0.5rem;
+    transform: translateY(-200%);
+    border: 1px solid var(--color-slate-700);
+    background: white;
+    padding: 0.375rem 0.625rem;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+[aria-current="page"] {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.project-writeup {
+    width: min(100%, 88ch);
+    margin-inline: auto;
+}
+
+.writeup {
+    line-height: 1.65;
+}
+
 .writeup > :first-child {
     margin-top: 0;
 }
@@ -16,13 +50,39 @@ body {
 .writeup p,
 .writeup ul,
 .writeup ol,
-.writeup pre {
+.writeup pre,
+.writeup blockquote,
+.writeup table,
+.writeup figure {
     margin-block: 0.625rem;
 }
 
-.writeup h3 {
-    margin-top: 1rem;
+.writeup h1,
+.writeup h2,
+.writeup h3,
+.writeup h4 {
+    line-height: 1.25;
     font-weight: 600;
+}
+
+.writeup h1 {
+    margin-top: 2rem;
+    font-size: 1.75rem;
+}
+
+.writeup h2 {
+    margin-top: 1.75rem;
+    font-size: 1.5rem;
+}
+
+.writeup h3 {
+    margin-top: 1.5rem;
+    font-size: 1.25rem;
+}
+
+.writeup h4 {
+    margin-top: 1.25rem;
+    font-size: 1.125rem;
 }
 
 .writeup ul,
@@ -40,6 +100,36 @@ body {
 
 .writeup a {
     text-decoration: underline;
+}
+
+.writeup blockquote {
+    border-left: 0.2rem solid var(--color-slate-300);
+    padding-left: 1rem;
+    color: var(--color-slate-700);
+    font-style: italic;
+}
+
+.writeup img {
+    max-width: 100%;
+    height: auto;
+}
+
+.writeup table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.writeup th,
+.writeup td {
+    border: 1px solid var(--color-slate-300);
+    padding: 0.35rem 0.5rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.writeup th {
+    background: var(--color-slate-100);
+    font-weight: 600;
 }
 
 .writeup :not(pre) > code {
@@ -65,6 +155,11 @@ body {
     font-size: 0.8125rem;
     line-height: 1.5;
     tab-size: 4;
+}
+
+.writeup pre code {
+    font-family:
+        ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
 }
 
 .writeup pre.astro-code span {

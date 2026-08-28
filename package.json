@@ -1,22 +1,26 @@
 {
-  "name": "",
+  "name": "xandwr.com",
   "type": "module",
   "version": "0.0.1",
+  "private": true,
+  "packageManager": "bun@1.4.0",
   "engines": {
-    "node": ">=22.12.0"
+    "bun": ">=1.4.0"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "deploy": "bun run build && wrangler deploy",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.2.6",
     "tailwindcss": "^4.3.3"
   },
-  "allowScripts": {
-    "esbuild": true
+  "devDependencies": {
+    "wrangler": "^4.127.0"
   }
 }

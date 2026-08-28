@@ -1,17 +1,10 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const projectEntries = (
+const projects = (
     await getCollection("projects", ({ data }) => !data.draft)
 ).sort((a, b) => a.data.order - b.data.order);
-
-const projects = await Promise.all(
-    projectEntries.map(async (project) => ({
-        ...project,
-        Content: (await render(project)).Content,
-    })),
-);
 
 const projectCategories = [
     {
@@ -34,9 +27,9 @@ const projectCategories = [
 ---
 
 <BaseLayout>
-    <section class="flex flex-col gap-y-4">
-        <section>
-            <section class="flex flex-col gap-y-2">
+    <section class="flex flex-col gap-y-4 w-full m-auto">
+        <section class="mx-auto w-full max-w-3xl">
+            <section class="flex flex-col gap-y-2 px-2">
                 <p>
                     I'm Xander, a developer in Edmonton AB, and I have weird
                     ideas which tend to grow into real work. My interests span
@@ -51,6 +44,7 @@ const projectCategories = [
                     my exploration, and more a tool for orchestrating it. <a
                         href="https://softwarequotes.com/quote/everything-really-interesting-that-happens-in-soft"
                         target="_blank"
+                        rel="noopener noreferrer"
                         class="underline"
                         >The most interesting things in software always lead
                         back to people</a
@@ -59,33 +53,43 @@ const projectCategories = [
             </section>
         </section>
 
-        <section id="projects">
-            <h1 class="text-2xl font-semibold border-b mb-2">Projects</h1>
+        <section id="projects" class="">
+            <div class="-mx-2 mb-2">
+                <h1 class="mx-auto px-2 max-w-3xl text-2xl font-semibold">
+                    Projects
+                </h1>
+            </div>
 
             <div class="flex flex-col gap-y-4">
                 {
                     projectCategories.map((category) => (
                         <section>
-                            <div class="bg-slate-200 border-y px-1">
-                                <h2 class="text-xl font-bold">
-                                    {category.title}
-                                </h2>
-                                <p class="italic">{category.description}</p>
+                            <div class="-mx-2 border-y bg-slate-200">
+                                <div class="mx-auto max-w-3xl px-2">
+                                    <h2 class="text-xl font-bold">
+                                        {category.title}
+                                    </h2>
+                                    <p class="italic">{category.description}</p>
+                                </div>
                             </div>
 
-                            <ul class="flex flex-col gap-y-3 pt-2">
+                            <ul class="mx-auto flex max-w-3xl flex-col gap-y-3 pt-2 px-2">
                                 {projects
                                     .filter(
                                         ({ data }) =>
                                             data.category === category.id,
                                     )
-                                    .map(({ id, data, Content }) => (
+                                    .map(({ id, data }) => (
                                         <li id={id}>
                                             <div class="flex flex-wrap items-baseline gap-x-2">
                                                 <h3 class="font-semibold">
                                                     <a
                                                         class="underline"
-                                                        href={data.href}
+                                                        href={
+                                                            data.writeup
+                                                                ? `/projects/${id}`
+                                                                : data.href
+                                                        }
                                                     >
                                                         {data.title}
                                                     </a>
@@ -106,14 +110,14 @@ const projectCategories = [
                                                 </p>
                                             )}
                                             {data.writeup && (
-                                                <details class="mt-2">
-                                                    <summary class="cursor-pointer underline">
+                                                <p class="mt-1">
+                                                    <a
+                                                        class="underline"
+                                                        href={`/projects/${id}`}
+                                                    >
                                                         Read the write-up
-                                                    </summary>
-                                                    <div class="writeup mt-2 border-l border-slate-300 pl-3">
-                                                        <Content />
-                                                    </div>
-                                                </details>
+                                                    </a>
+                                                </p>
                                             )}
                                         </li>
                                     ))}
