@@ -6,15 +6,15 @@ const isResume = pathname === "/resume" || pathname === "/resume/";
 
 <header class="bg-slate-300 p-2 border-b print:hidden">
     <div class="mx-auto max-w-3xl px-2">
-        <a href="/" class="text-2xl">(ale)xander pickering</a>
+        <a href="/" class="site-title text-2xl">(ale)xander pickering</a>
 
         <nav class="flex gap-3 items-center">
-            <a href="/" class="hover:text-blue-600" aria-current={isHome ? "page" : undefined}>home</a>
-            <a href="/resume" class="hover:text-blue-600" aria-current={isResume ? "page" : undefined}>resume</a>
+            <a href="/" aria-current={isHome ? "page" : undefined}>home</a>
+            <a href="/resume" aria-current={isResume ? "page" : undefined}>resume</a>
             <span class="contact-control inline-flex items-center rounded">
                 <button
                     type="button"
-                    class="cursor-pointer pl-1 hover:text-blue-600"
+                    class="cursor-pointer pl-1"
                     aria-expanded="false"
                     aria-controls="contact-email"
                     data-contact-toggle
@@ -25,7 +25,6 @@ const isResume = pathname === "/resume" || pathname === "/resume/";
                     <span aria-hidden="true" class="mr-1">:</span>
                     <a
                         href="mailto:hello@xandwr.com"
-                        class="hover:text-orange-600"
                     >
                         hello@xandwr.com
                     </a>
